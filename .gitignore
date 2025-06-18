@@ -1,0 +1,17 @@
+# Build outputs
+bin/
+obj/
+
+# Visual Studio files
+.vs/
+*.suo
+*.user
+*.userosscache
+
+# NuGet
+packages/
+*.nupkg
+
+# Local development files
+*.swp
+*.cache
