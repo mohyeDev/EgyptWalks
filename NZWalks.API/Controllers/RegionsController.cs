@@ -25,7 +25,7 @@ namespace NZWalks.API.Controllers
 
             var regionsDto = new List<RegionDto>();
 
-            foreach(var region in regions)
+            foreach (var region in regions)
             {
                 regionsDto.Add(new RegionDto()
                 {
@@ -42,11 +42,11 @@ namespace NZWalks.API.Controllers
 
         [HttpGet]
         [Route("{id:guid}")]
-        public IActionResult GetById([FromRoute]Guid id)
+        public IActionResult GetById([FromRoute] Guid id)
         {
             var region = _context.regions.Find(id);
 
-            if(region is null)
+            if (region is null)
             {
                 return NotFound();
             }
@@ -86,8 +86,37 @@ namespace NZWalks.API.Controllers
                 RegionImageUrl = regionDomainModel.RegionImageUrl
             };
 
-            return CreatedAtAction(nameof(GetById),new {id =regionDomainModel.Id}, regionDto);
+            return CreatedAtAction(nameof(GetById), new { id = regionDomainModel.Id }, regionDto);
 
+        }
+
+
+        [HttpPut]
+        [Route("{id:guid}")]
+        public IActionResult Update([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegionRequestDto)
+        {
+           var regionsDomainModel = _context.regions.Find(id);
+
+            if(regionsDomainModel is null)
+            {
+                return NotFound();
+            }
+
+            regionsDomainModel.Code = updateRegionRequestDto.Code;
+            regionsDomainModel.Name = updateRegionRequestDto.Name;
+            regionsDomainModel.RegionImageUrl = updateRegionRequestDto.RegionImageUrl;
+
+            _context.SaveChanges();
+
+            var regionDto = new RegionDto()
+            {
+                Id = regionsDomainModel.Id,
+                Name = regionsDomainModel.Name,
+                Code = regionsDomainModel.Code,
+                RegionImageUrl = regionsDomainModel.RegionImageUrl
+            };
+
+            return Ok(regionDto);
         }
 
 
