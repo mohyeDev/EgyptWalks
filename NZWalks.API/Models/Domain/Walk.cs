@@ -13,7 +13,7 @@
 
         public string? WalkImageUrl { get; set; }    
 
-        public Guid DiffucltyId { get; set; }
+        public Guid DiffucultyId { get; set; }
 
         public Diffuculty Diffuculty { get; set; }
 
