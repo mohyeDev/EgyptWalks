@@ -1,4 +1,7 @@
 
+using EgyptWalks.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace EgyptWalks
 {
     public class Program
@@ -13,6 +16,10 @@ namespace EgyptWalks
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddDbContext<EgypWalksDbContext>(option =>
+            {
+                option.UseSqlServer(builder.Configuration.GetConnectionString("EgyptWalksConnectionString"));
+            });
 
             var app = builder.Build();
 
