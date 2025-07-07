@@ -58,5 +58,34 @@ namespace EgyptWalks.Controllers
             
         }
 
+
+        [HttpPost]
+
+        public IActionResult Create([FromBody] AddRegionRequestDto addRegion )
+        {
+
+            var regionDomainModel = new Region()
+            {
+                Code = addRegion.Code,
+                RegionImageUrl = addRegion.RegionImageUrl,
+                Name = addRegion.Name,
+            };
+
+            dbContext.Regions.Add(regionDomainModel);
+            dbContext.SaveChanges();
+
+            var regionDto = new RegionDto()
+            {
+                Id = regionDomainModel.Id,
+                Name = regionDomainModel.Name,
+                Code = regionDomainModel.Code,
+                RegionImageUrl = regionDomainModel.RegionImageUrl,
+            };
+
+
+            return CreatedAtAction(nameof(GetById), new { id = regionDto.Id }, regionDto);
+
+        }
+
     }
 }
