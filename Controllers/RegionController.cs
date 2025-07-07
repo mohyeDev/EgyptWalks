@@ -1,5 +1,6 @@
 ﻿using EgyptWalks.Data;
 using EgyptWalks.Models.Domain;
+using EgyptWalks.Models.DTo;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +22,21 @@ namespace EgyptWalks.Controllers
         {
             var regions = dbContext.Regions.ToList();
 
-            return Ok(regions);
+
+            var regionDto = new List<RegionDto>();
+
+            foreach (var region in regions)
+            {
+                regionDto.Add(new RegionDto()
+                {
+                    Id = region.Id,
+                    Name = region.Name,
+                    Code = region.Code,
+                    RegionImageUrl = region.RegionImageUrl,
+                });
+            }
+
+            return Ok(regionDto);
 
         }
 
@@ -29,9 +44,17 @@ namespace EgyptWalks.Controllers
          public IActionResult GetById([FromRoute]Guid id)
         {
             var region = dbContext.Regions.FirstOrDefault(x => x.Id == id);
-            if(region is null) return NotFound();
 
-            return Ok(region);
+            if(region is null) return NotFound();
+            var regionDto = new RegionDto()
+            {
+                Id = region.Id,
+                Name = region.Name,
+                Code = region.Code,
+                RegionImageUrl = region.RegionImageUrl,
+            };
+
+            return Ok(regionDto);
             
         }
 
