@@ -3,6 +3,7 @@ using EgyptWalks.Models.Domain;
 using EgyptWalks.Models.DTo;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EgyptWalks.Controllers
 {
@@ -18,9 +19,9 @@ namespace EgyptWalks.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var regions = dbContext.Regions.ToList();
+            var regions = await dbContext.Regions.ToListAsync();
 
 
             var regionDto = new List<RegionDto>();
@@ -41,9 +42,9 @@ namespace EgyptWalks.Controllers
         }
 
         [HttpGet("{id:guid}")]
-         public IActionResult GetById([FromRoute]Guid id)
+         public async Task<IActionResult>  GetById([FromRoute]Guid id)
         {
-            var region = dbContext.Regions.FirstOrDefault(x => x.Id == id);
+            var region = await dbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
 
             if(region is null) return NotFound();
             var regionDto = new RegionDto()
@@ -61,7 +62,7 @@ namespace EgyptWalks.Controllers
 
         [HttpPost]
 
-        public IActionResult Create([FromBody] AddRegionRequestDto addRegion )
+        public async Task<IActionResult> Create([FromBody] AddRegionRequestDto addRegion )
         {
 
             var regionDomainModel = new Region()
@@ -71,8 +72,8 @@ namespace EgyptWalks.Controllers
                 Name = addRegion.Name,
             };
 
-            dbContext.Regions.Add(regionDomainModel);
-            dbContext.SaveChanges();
+            await dbContext.Regions.AddAsync(regionDomainModel);
+            await dbContext.SaveChangesAsync();
 
             var regionDto = new RegionDto()
             {
@@ -91,10 +92,10 @@ namespace EgyptWalks.Controllers
 
         [HttpPut("{id:guid}")]
 
-        public IActionResult Update([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegion)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegion)
         {
 
-            var RegionDomainModel = dbContext.Regions.Find(id);
+            var RegionDomainModel = await dbContext.Regions.FindAsync(id);
 
             if (RegionDomainModel is null) return NotFound();
 
@@ -102,7 +103,7 @@ namespace EgyptWalks.Controllers
             RegionDomainModel.Code = updateRegion.Code;
             RegionDomainModel.RegionImageUrl = updateRegion.RegionImageUrl;
 
-            dbContext.SaveChanges();
+          await  dbContext.SaveChangesAsync();
 
             var regionDto = new RegionDto()
             {
@@ -119,15 +120,15 @@ namespace EgyptWalks.Controllers
 
         [HttpDelete("{id:guid}")]
 
-        public IActionResult Delete([FromRoute] Guid id)
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            var regionDomainModel = dbContext.Regions.FirstOrDefault(x => x.Id == id);
+            var regionDomainModel = await dbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
 
             if (regionDomainModel is null) return NotFound();
 
             dbContext.Regions.Remove(regionDomainModel);
 
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
 
             return Ok("Region Deleted Successfully!");
         }
