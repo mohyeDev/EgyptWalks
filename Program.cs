@@ -1,5 +1,6 @@
 
 using EgyptWalks.Data;
+using EgyptWalks.Repositiory;
 using Microsoft.EntityFrameworkCore;
 
 namespace EgyptWalks
@@ -20,6 +21,8 @@ namespace EgyptWalks
             {
                 option.UseSqlServer(builder.Configuration.GetConnectionString("EgyptWalksConnectionString"));
             });
+
+            builder.Services.AddScoped<IRegionRepositiory, SQLRegionRepositiory>();
 
             var app = builder.Build();
 

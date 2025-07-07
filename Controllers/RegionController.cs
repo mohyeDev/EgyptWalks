@@ -1,6 +1,7 @@
 ﻿using EgyptWalks.Data;
 using EgyptWalks.Models.Domain;
 using EgyptWalks.Models.DTo;
+using EgyptWalks.Repositiory;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,16 +13,18 @@ namespace EgyptWalks.Controllers
     public class RegionController : ControllerBase
     {
         private readonly EgypWalksDbContext dbContext;
+        private readonly IRegionRepositiory regionRepositiory;
 
-        public RegionController(EgypWalksDbContext dbContext)
+        public RegionController(EgypWalksDbContext dbContext, IRegionRepositiory regionRepositiory)
         {
             this.dbContext = dbContext;
+            this.regionRepositiory = regionRepositiory;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var regions = await dbContext.Regions.ToListAsync();
+            var regions = await regionRepositiory.GetAllAsync();
 
 
             var regionDto = new List<RegionDto>();
