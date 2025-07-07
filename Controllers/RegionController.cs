@@ -22,6 +22,16 @@ namespace EgyptWalks.Controllers
             var regions = dbContext.Regions.ToList();
 
             return Ok(regions);
+
+        }
+
+        [HttpGet("{id:guid}")]
+         public IActionResult GetById([FromRoute]Guid id)
+        {
+            var region = dbContext.Regions.FirstOrDefault(x => x.Id == id);
+            if(region is null) return NotFound();
+
+            return Ok(region);
             
         }
 
