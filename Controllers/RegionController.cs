@@ -87,5 +87,33 @@ namespace EgyptWalks.Controllers
 
         }
 
+
+
+        [HttpPut("{id:guid}")]
+
+        public IActionResult Update([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegion)
+        {
+
+            var RegionDomainModel = dbContext.Regions.Find(id);
+
+            if (RegionDomainModel is null) return NotFound();
+
+            RegionDomainModel.Name = updateRegion.Name;
+            RegionDomainModel.Code = updateRegion.Code;
+            RegionDomainModel.RegionImageUrl = updateRegion.RegionImageUrl;
+
+            dbContext.SaveChanges();
+
+            var regionDto = new RegionDto()
+            {
+                Id = RegionDomainModel.Id,
+                Code = RegionDomainModel.Code,
+                RegionImageUrl = RegionDomainModel.RegionImageUrl,
+                Name = RegionDomainModel.Name
+            };
+            return Ok(regionDto);
+
+
+        }
     }
 }
