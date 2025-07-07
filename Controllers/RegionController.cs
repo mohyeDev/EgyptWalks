@@ -115,5 +115,21 @@ namespace EgyptWalks.Controllers
 
 
         }
+
+
+        [HttpDelete("{id:guid}")]
+
+        public IActionResult Delete([FromRoute] Guid id)
+        {
+            var regionDomainModel = dbContext.Regions.FirstOrDefault(x => x.Id == id);
+
+            if (regionDomainModel is null) return NotFound();
+
+            dbContext.Regions.Remove(regionDomainModel);
+
+            dbContext.SaveChanges();
+
+            return Ok("Region Deleted Successfully!");
+        }
     }
 }
