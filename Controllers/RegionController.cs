@@ -47,7 +47,7 @@ namespace EgyptWalks.Controllers
         [HttpGet("{id:guid}")]
          public async Task<IActionResult>  GetById([FromRoute]Guid id)
         {
-            var region = await dbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
+            var region = await regionRepositiory.GetByIdAsync(id);
 
             if(region is null) return NotFound();
             var regionDto = new RegionDto()
@@ -75,8 +75,8 @@ namespace EgyptWalks.Controllers
                 Name = addRegion.Name,
             };
 
-            await dbContext.Regions.AddAsync(regionDomainModel);
-            await dbContext.SaveChangesAsync();
+            regionDomainModel = await regionRepositiory.CreateAsync(regionDomainModel);
+
 
             var regionDto = new RegionDto()
             {
@@ -98,10 +98,15 @@ namespace EgyptWalks.Controllers
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegion)
         {
 
-            var RegionDomainModel = await dbContext.Regions.FindAsync(id);
+            var RegionDomainModel = new Region()
+            {
+                Code = updateRegion.Code,
+                RegionImageUrl = updateRegion.RegionImageUrl,
+                Name = updateRegion.Name,
 
+            };
+            RegionDomainModel = await regionRepositiory.UpdateAsync(id, RegionDomainModel);
             if (RegionDomainModel is null) return NotFound();
-
             RegionDomainModel.Name = updateRegion.Name;
             RegionDomainModel.Code = updateRegion.Code;
             RegionDomainModel.RegionImageUrl = updateRegion.RegionImageUrl;
@@ -125,14 +130,12 @@ namespace EgyptWalks.Controllers
 
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            var regionDomainModel = await dbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
+            var regionDomainModel = await regionRepositiory.DeleteAsync(id);
+
 
             if (regionDomainModel is null) return NotFound();
 
-            dbContext.Regions.Remove(regionDomainModel);
-
-            await dbContext.SaveChangesAsync();
-
+      
             return Ok("Region Deleted Successfully!");
         }
     }
