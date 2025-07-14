@@ -39,5 +39,16 @@ namespace EgyptWalks.Controllers
 
         }
 
+
+        [HttpGet]
+
+        public async Task<IActionResult> GetAll()
+        {
+            var walksDomainModel = await walkRepoistory.GetAllAsync();
+
+            return Ok(mapper.Map<List<WalkDto>>(walksDomainModel));
+
+        }
+
     }
 }

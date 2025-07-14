@@ -7,5 +7,7 @@ namespace EgyptWalks.Repositiory
 
         public Task<Walk> CreateAsync(Walk walk);
 
+        public Task<List<Walk>> GetAllAsync();
+
     }
 }

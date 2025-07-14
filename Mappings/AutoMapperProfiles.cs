@@ -14,6 +14,7 @@ namespace EgyptWalks.Mappings
             CreateMap<UpdateRegionRequestDto, Region>().ReverseMap();
             CreateMap<Walk, AddWalkRequestDto>().ReverseMap();
             CreateMap<WalkDto, Walk>().ReverseMap();
+            //CreateMap<List<WalkDto>, List<Walk>>().ReverseMap();
 
 
         }

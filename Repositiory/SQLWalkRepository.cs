@@ -1,5 +1,6 @@
 ﻿using EgyptWalks.Data;
 using EgyptWalks.Models.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace EgyptWalks.Repositiory
 {
@@ -17,6 +18,11 @@ namespace EgyptWalks.Repositiory
             await dbContext.Walks.AddAsync(walk);
             await dbContext.SaveChangesAsync();
             return walk;
+        }
+
+        public async Task<List<Walk>> GetAllAsync()
+        {
+            return await dbContext.Walks.ToListAsync();
         }
     }
 }
