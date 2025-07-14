@@ -24,5 +24,10 @@ namespace EgyptWalks.Repositiory
         {
             return await dbContext.Walks.Include("Diffuclty").Include("Region").ToListAsync();
         }
+
+        public async Task<Walk> GetByIdAsync(Guid id)
+        {
+           return await dbContext.Walks.Include(x => x.Diffuclty).Include(x => x.Region).FirstOrDefaultAsync(x => x.Id == id);
+        }
     }
 }

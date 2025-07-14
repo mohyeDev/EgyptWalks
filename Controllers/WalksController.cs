@@ -50,5 +50,17 @@ namespace EgyptWalks.Controllers
 
         }
 
+
+        [HttpGet("{id:guid}")]
+
+        public async Task<IActionResult> GetById([FromRoute] Guid id)
+        {
+            var walksDomainModel = await walkRepoistory.GetByIdAsync(id);
+            if (walksDomainModel is null) return NotFound();
+
+            
+            return Ok(mapper.Map<WalkDto>(walksDomainModel));
+        }
+
     }
 }
