@@ -15,10 +15,10 @@
 
         
         public Guid DiffucltyId { get; set; }
-        public Diffuclty Diffuclty { get; set; }
 
         public Guid RegionId { get; set; }
 
+        public Diffuclty Diffuclty { get; set; }
         public Region Region { get; set; }
     }
 }

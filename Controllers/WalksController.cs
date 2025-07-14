@@ -62,5 +62,21 @@ namespace EgyptWalks.Controllers
             return Ok(mapper.Map<WalkDto>(walksDomainModel));
         }
 
+
+        [HttpPut("{id:guid}")]
+
+        public async Task<IActionResult> Update([FromRoute] Guid id , [FromBody] UpdateWalksRequestDto updateWalks)
+        {
+            var walkDomainModel = mapper.Map<Walk>(updateWalks);
+
+            walkDomainModel =  await walkRepoistory.UpdateAsync(id, walkDomainModel);
+
+            if(walkDomainModel is null) return NotFound();
+
+            return Ok(mapper.Map<WalkDto>(walkDomainModel));
+        }
+
+
+
     }
 }

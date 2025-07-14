@@ -27,7 +27,32 @@ namespace EgyptWalks.Repositiory
 
         public async Task<Walk> GetByIdAsync(Guid id)
         {
-           return await dbContext.Walks.Include(x => x.Diffuclty).Include(x => x.Region).FirstOrDefaultAsync(x => x.Id == id);
+            return await dbContext.Walks.Include(x => x.Diffuclty).Include(x => x.Region).FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<Walk?> UpdateAsync(Guid id, Walk walk)
+        {
+            var existingWalk = await dbContext.Walks.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (existingWalk is null) return null;
+
+
+            existingWalk.Name = walk.Name;
+            existingWalk.DiffucltyId = walk.DiffucltyId;
+            existingWalk.Description = walk.Description;
+            existingWalk.LengthInKm = walk.LengthInKm;
+            existingWalk.WalkImageUrl = walk.WalkImageUrl;
+            existingWalk.RegionId = walk.RegionId;
+
+
+            await dbContext.SaveChangesAsync();
+
+            return await dbContext.Walks
+              .Include(w => w.Region)
+              .Include(w => w.Diffuclty)
+              .FirstOrDefaultAsync(w => w.Id == id);
+
+
         }
     }
 }

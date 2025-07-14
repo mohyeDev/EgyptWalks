@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EgyptWalks.Models.Domain;
 using EgyptWalks.Models.DTo;
+using System.Runtime.CompilerServices;
 
 namespace EgyptWalks.Mappings
 {
@@ -15,6 +16,7 @@ namespace EgyptWalks.Mappings
             CreateMap<Walk, AddWalkRequestDto>().ReverseMap();
             CreateMap<WalkDto, Walk>().ReverseMap();
             CreateMap<Diffuclty, DiffucltyDto>().ReverseMap();
+            CreateMap<UpdateWalksRequestDto, Walk>().ReverseMap();
 
 
         }
