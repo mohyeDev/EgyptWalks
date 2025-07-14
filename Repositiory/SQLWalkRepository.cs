@@ -32,7 +32,7 @@ namespace EgyptWalks.Repositiory
 
         }
 
-        public async Task<List<Walk>> GetAllAsync(string? filterOn = null , string? filterQuery = null , string? sortBy = null , bool isAscending = true)
+        public async Task<List<Walk>> GetAllAsync(string? filterOn = null , string? filterQuery = null , string? sortBy = null , bool isAscending = true ,int pageNumber = 1 , int pageSize = 5)
         {
             var walks = dbContext.Walks.Include(x => x.Diffuclty).Include(x => x.Region).AsQueryable();
 
@@ -61,7 +61,11 @@ namespace EgyptWalks.Repositiory
 
                 
             }
-            return await walks.ToListAsync();
+
+            var skipResult = (pageNumber - 1) * pageSize;
+
+
+            return await walks.Skip(skipResult).Take(pageSize).ToListAsync();
         }
 
         public async Task<Walk> GetByIdAsync(Guid id)

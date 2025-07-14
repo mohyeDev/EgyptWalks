@@ -7,7 +7,7 @@ namespace EgyptWalks.Repositiory
 
         public Task<Walk> CreateAsync(Walk walk);
 
-        public Task<List<Walk>> GetAllAsync(string? filterOn = null , string? filterQuery = null , string? sortBy = null , bool isAscending = true);
+        public Task<List<Walk>> GetAllAsync(string? filterOn = null , string? filterQuery = null , string? sortBy = null , bool isAscending = true,int pageSize = 5 , int pageNumber = 1);
 
         public Task<Walk?> GetByIdAsync(Guid id);
 
