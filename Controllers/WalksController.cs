@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EgyptWalks.CustomActionFilter;
 using EgyptWalks.Models.Domain;
 using EgyptWalks.Models.DTo;
 using EgyptWalks.Repositiory;
@@ -21,14 +22,10 @@ namespace EgyptWalks.Controllers
         }
 
         [HttpPost]
+        [ValidateModelAtrribute]
         public async Task<IActionResult> Create([FromBody] AddWalkRequestDto addWalkRequestDto) {
 
 
-            // Map Dto To Domain Model 
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);  
-            }
 
             var walkDomainModel = mapper.Map<Walk>(addWalkRequestDto);
 
@@ -68,14 +65,11 @@ namespace EgyptWalks.Controllers
 
 
         [HttpPut("{id:guid}")]
+        [ValidateModelAtrribute]
 
         public async Task<IActionResult> Update([FromRoute] Guid id , [FromBody] UpdateWalksRequestDto updateWalks)
         {
-
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+ 
             var walkDomainModel = mapper.Map<Walk>(updateWalks);
 
             walkDomainModel =  await walkRepoistory.UpdateAsync(id, walkDomainModel);

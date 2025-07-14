@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EgyptWalks.CustomActionFilter;
 using EgyptWalks.Data;
 using EgyptWalks.Mappings;
 using EgyptWalks.Models.Domain;
@@ -50,14 +51,11 @@ namespace EgyptWalks.Controllers
 
 
         [HttpPost]
+        [ValidateModelAtrribute]
 
         public async Task<IActionResult> Create([FromBody] AddRegionRequestDto addRegion )
         {
-
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+             
 
             var regionDomainModel = mapper.Map<Region>(addRegion);
 
@@ -75,7 +73,9 @@ namespace EgyptWalks.Controllers
 
 
 
+
         [HttpPut("{id:guid}")]
+        [ValidateModelAtrribute]
 
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegion)
         {
