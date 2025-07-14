@@ -32,6 +32,8 @@ namespace EgyptWalks
 
             builder.Services.AddScoped<IRegionRepositiory, SQLRegionRepositiory>();
 
+            builder.Services.AddScoped<IWalkRepoistory, SQLWalkRepository>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
