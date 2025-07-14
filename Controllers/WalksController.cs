@@ -77,6 +77,15 @@ namespace EgyptWalks.Controllers
         }
 
 
+        [HttpDelete("{id:guid}")]
+
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var WalkDomainModel = await walkRepoistory.DeleteAsync(id);
+            if (WalkDomainModel is null) return NotFound();
+
+            return Ok();
+        }
 
     }
 }

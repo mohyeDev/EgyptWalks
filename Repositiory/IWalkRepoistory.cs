@@ -13,5 +13,7 @@ namespace EgyptWalks.Repositiory
 
         public Task<Walk?> UpdateAsync(Guid id, Walk walk);
 
+        public Task<Walk?> DeleteAsync(Guid id);
+
     }
 }
