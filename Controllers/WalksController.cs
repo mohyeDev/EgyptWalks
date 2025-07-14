@@ -25,6 +25,10 @@ namespace EgyptWalks.Controllers
 
 
             // Map Dto To Domain Model 
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);  
+            }
 
             var walkDomainModel = mapper.Map<Walk>(addWalkRequestDto);
 
@@ -67,6 +71,11 @@ namespace EgyptWalks.Controllers
 
         public async Task<IActionResult> Update([FromRoute] Guid id , [FromBody] UpdateWalksRequestDto updateWalks)
         {
+
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var walkDomainModel = mapper.Map<Walk>(updateWalks);
 
             walkDomainModel =  await walkRepoistory.UpdateAsync(id, walkDomainModel);

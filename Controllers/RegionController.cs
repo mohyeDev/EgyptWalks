@@ -54,6 +54,11 @@ namespace EgyptWalks.Controllers
         public async Task<IActionResult> Create([FromBody] AddRegionRequestDto addRegion )
         {
 
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var regionDomainModel = mapper.Map<Region>(addRegion);
 
 
