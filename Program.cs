@@ -25,14 +25,12 @@ namespace EgyptWalks
                 option.UseSqlServer(builder.Configuration.GetConnectionString("EgyptWalksConnectionString"));
             });
 
-
             builder.Services.AddAutoMapper(cgf =>
             {
                 cgf.AddProfile<AutoMapperProfiles>();
             });
 
             builder.Services.AddScoped<IRegionRepositiory, SQLRegionRepositiory>();
-
 
             var app = builder.Build();
 
