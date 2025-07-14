@@ -43,9 +43,9 @@ namespace EgyptWalks.Controllers
 
         [HttpGet]
 
-        public async Task<IActionResult> GetAll([FromQuery] string? filterOn = null , [FromQuery] string? filterQuery = null)
+        public async Task<IActionResult> GetAll([FromQuery] string? filterOn  , [FromQuery] string? filterQuery , [FromQuery] string? sortBy , [FromQuery] bool isAscending)
         {
-            var walksDomainModel = await walkRepoistory.GetAllAsync(filterOn,filterQuery);
+            var walksDomainModel = await walkRepoistory.GetAllAsync(filterOn,filterQuery,sortBy,isAscending);
 
           
             return Ok(mapper.Map<List<WalkDto>>(walksDomainModel));

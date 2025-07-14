@@ -1,6 +1,7 @@
 ﻿using EgyptWalks.Data;
 using EgyptWalks.Models.Domain;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Eventing.Reader;
 
 namespace EgyptWalks.Repositiory
 {
@@ -31,7 +32,7 @@ namespace EgyptWalks.Repositiory
 
         }
 
-        public async Task<List<Walk>> GetAllAsync(string? filterOn = null , string? filterQuery = null)
+        public async Task<List<Walk>> GetAllAsync(string? filterOn = null , string? filterQuery = null , string? sortBy = null , bool isAscending = true)
         {
             var walks = dbContext.Walks.Include(x => x.Diffuclty).Include(x => x.Region).AsQueryable();
 
@@ -43,6 +44,22 @@ namespace EgyptWalks.Repositiory
                     walks = walks.Where(x => x.Name.Contains(filterQuery));
 
                 }
+            }
+
+            if(!string.IsNullOrEmpty(sortBy))
+            {
+                if (sortBy.Equals("Name", StringComparison.OrdinalIgnoreCase))
+                {
+                    walks = isAscending? walks.OrderBy(x => x.Name):walks.OrderByDescending(x => x.Name);
+                }
+
+                else if(sortBy.Equals("Length",StringComparison.OrdinalIgnoreCase))
+                {
+                    walks = isAscending ? walks.OrderBy(x => x.LengthInKm) : walks.OrderByDescending(x => x.LengthInKm);
+                }
+
+
+                
             }
             return await walks.ToListAsync();
         }
