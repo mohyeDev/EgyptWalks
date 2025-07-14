@@ -15,7 +15,5 @@ namespace EgyptWalks.Data
         public DbSet<Region> Regions { get; set; }
 
 
-      
-
     }
 }

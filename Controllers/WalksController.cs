@@ -43,10 +43,11 @@ namespace EgyptWalks.Controllers
 
         [HttpGet]
 
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] string? filterOn = null , [FromQuery] string? filterQuery = null)
         {
-            var walksDomainModel = await walkRepoistory.GetAllAsync();
+            var walksDomainModel = await walkRepoistory.GetAllAsync(filterOn,filterQuery);
 
+          
             return Ok(mapper.Map<List<WalkDto>>(walksDomainModel));
 
         }
