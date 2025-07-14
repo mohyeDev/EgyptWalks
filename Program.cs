@@ -1,10 +1,12 @@
-
+using Microsoft.IdentityModel.Tokens;
 using EgyptWalks.Controllers;
 using EgyptWalks.Data;
 using EgyptWalks.Mappings;
 using EgyptWalks.Repositiory;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Text;
 
 namespace EgyptWalks
 {
@@ -33,6 +35,17 @@ namespace EgyptWalks
             builder.Services.AddScoped<IRegionRepositiory, SQLRegionRepositiory>();
 
             builder.Services.AddScoped<IWalkRepoistory, SQLWalkRepository>();
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(option => option.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                ValidAudience = builder.Configuration["Jwt:Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+            });
 
             var app = builder.Build();
 
