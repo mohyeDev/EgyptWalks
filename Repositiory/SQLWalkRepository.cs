@@ -22,7 +22,7 @@ namespace EgyptWalks.Repositiory
 
         public async Task<List<Walk>> GetAllAsync()
         {
-            return await dbContext.Walks.ToListAsync();
+            return await dbContext.Walks.Include("Diffuclty").Include("Region").ToListAsync();
         }
     }
 }
