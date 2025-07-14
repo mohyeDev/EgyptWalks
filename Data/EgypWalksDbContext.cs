@@ -5,7 +5,7 @@ namespace EgyptWalks.Data
 {
     public class EgypWalksDbContext : DbContext
     {
-        public EgypWalksDbContext(DbContextOptions options) : base(options) 
+        public EgypWalksDbContext(DbContextOptions<EgypWalksDbContext> options) : base(options) 
         {
             
         }

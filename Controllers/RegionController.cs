@@ -5,6 +5,7 @@ using EgyptWalks.Mappings;
 using EgyptWalks.Models.Domain;
 using EgyptWalks.Models.DTo;
 using EgyptWalks.Repositiory;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ namespace EgyptWalks.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class RegionController : ControllerBase
     {
         private readonly EgypWalksDbContext dbContext;

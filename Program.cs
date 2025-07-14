@@ -27,6 +27,11 @@ namespace EgyptWalks
                 option.UseSqlServer(builder.Configuration.GetConnectionString("EgyptWalksConnectionString"));
             });
 
+            builder.Services.AddDbContext<EgyptWalksAuthDbContext>(option =>
+            {
+                option.UseSqlServer(builder.Configuration.GetConnectionString("EgyptWalksAuthConnectionString"));
+            });
+
             builder.Services.AddAutoMapper(cgf =>
             {
                 cgf.AddProfile<AutoMapperProfiles>();
