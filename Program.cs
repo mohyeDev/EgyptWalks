@@ -65,6 +65,8 @@ namespace EgyptWalks
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
             });
 
+            builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

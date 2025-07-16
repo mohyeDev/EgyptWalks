@@ -1,4 +1,5 @@
 ﻿using EgyptWalks.Models.DTo;
+using EgyptWalks.Repositiory;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,12 @@ namespace EgyptWalks.Controllers
     public class AuthController : ControllerBase
     {
         private readonly UserManager<IdentityUser> userManager;
+        private readonly ITokenRepository tokenRepository;
 
-        public AuthController(UserManager<IdentityUser> userManager)
+        public AuthController(UserManager<IdentityUser> userManager , ITokenRepository tokenRepository)
         {
             this.userManager = userManager;
+            this.tokenRepository = tokenRepository;
         }
 
         [HttpPost("Register")]
@@ -57,7 +60,18 @@ namespace EgyptWalks.Controllers
                 var checkPasswordResult = await userManager.CheckPasswordAsync(user, loginRequestDto.Password);
                 if(checkPasswordResult)
                 {
-                    return Ok();
+                    var roles = await userManager.GetRolesAsync(user);
+                    if(roles is not null)
+                    {
+                        var jwtToken = tokenRepository.CreateJwtToken(user,roles.ToList());
+
+                        var response = new LoginResponseDto()
+                        {
+                            JwtToken = jwtToken,
+                        };
+
+                        return Ok(response);
+                    }
                 }
             }
 
