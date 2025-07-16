@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
 
 namespace EgyptWalks
 {
@@ -40,6 +41,18 @@ namespace EgyptWalks
             builder.Services.AddScoped<IRegionRepositiory, SQLRegionRepositiory>();
 
             builder.Services.AddScoped<IWalkRepoistory, SQLWalkRepository>();
+
+            builder.Services.AddIdentityCore<IdentityUser>().AddRoles<IdentityRole>().AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("EgyptWalks").AddEntityFrameworkStores<EgyptWalksAuthDbContext>().AddDefaultTokenProviders() ;
+
+            builder.Services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 1;
+            });
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(option => option.TokenValidationParameters = new TokenValidationParameters
             {
