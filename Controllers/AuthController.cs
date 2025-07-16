@@ -16,7 +16,7 @@ namespace EgyptWalks.Controllers
             this.userManager = userManager;
         }
 
-        [HttpPost]
+        [HttpPost("Register")]
 
         public async Task<IActionResult> Register([FromBody] RegisterRequestDto registerRequestDto)
         {
@@ -39,12 +39,31 @@ namespace EgyptWalks.Controllers
                     }
                 }
 
-
-
             }
 
 
             return BadRequest("Something Went Wrong!");
+        }
+
+
+        [HttpPost("Login")]
+
+        public async Task<IActionResult> Login([FromBody] LoginRequestDto loginRequestDto)
+        {
+            var user = await userManager.FindByEmailAsync(loginRequestDto.UserName);
+
+            if(user is not null)
+            {
+                var checkPasswordResult = await userManager.CheckPasswordAsync(user, loginRequestDto.Password);
+                if(checkPasswordResult)
+                {
+                    return Ok();
+                }
+            }
+
+            return BadRequest("User Name Or Password is Wrong!");
+
+
         }
     }
 }
