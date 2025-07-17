@@ -14,7 +14,6 @@ namespace EgyptWalks.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class RegionController : ControllerBase
     {
         private readonly EgypWalksDbContext dbContext;
@@ -29,6 +28,7 @@ namespace EgyptWalks.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Reader")]
         public async Task<IActionResult> GetAll()
         {
             var regions = await regionRepositiory.GetAllAsync();
@@ -40,7 +40,9 @@ namespace EgyptWalks.Controllers
         }
 
         [HttpGet("{id:guid}")]
-         public async Task<IActionResult>  GetById([FromRoute]Guid id)
+        [Authorize(Roles ="Reader")]
+
+        public async Task<IActionResult>  GetById([FromRoute]Guid id)
         {
             var region = await regionRepositiory.GetByIdAsync(id);
 
@@ -54,6 +56,7 @@ namespace EgyptWalks.Controllers
 
         [HttpPost]
         [ValidateModelAtrribute]
+        [Authorize(Roles ="Writer")]
 
         public async Task<IActionResult> Create([FromBody] AddRegionRequestDto addRegion )
         {
@@ -78,6 +81,8 @@ namespace EgyptWalks.Controllers
 
         [HttpPut("{id:guid}")]
         [ValidateModelAtrribute]
+        [Authorize(Roles = "Writer")]
+
 
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegion)
         {
@@ -99,6 +104,8 @@ namespace EgyptWalks.Controllers
 
 
         [HttpDelete("{id:guid}")]
+        [Authorize(Roles = "Writer")]
+
 
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
