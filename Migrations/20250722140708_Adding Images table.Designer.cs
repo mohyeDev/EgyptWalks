@@ -4,6 +4,7 @@ using EgyptWalks.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EgyptWalks.Migrations
 {
     [DbContext(typeof(EgypWalksDbContext))]
-    partial class EgypWalksDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250722140708_Adding Images table")]
+    partial class AddingImagestable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +37,7 @@ namespace EgyptWalks.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Diffuclty", (string)null);
+                    b.ToTable("Diffuclty");
                 });
 
             modelBuilder.Entity("EgyptWalks.Models.Domain.Image", b =>
@@ -63,7 +66,7 @@ namespace EgyptWalks.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Images", (string)null);
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("EgyptWalks.Models.Domain.Region", b =>
@@ -85,7 +88,7 @@ namespace EgyptWalks.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Regions", (string)null);
+                    b.ToTable("Regions");
                 });
 
             modelBuilder.Entity("EgyptWalks.Models.Domain.Walk", b =>
@@ -120,7 +123,7 @@ namespace EgyptWalks.Migrations
 
                     b.HasIndex("RegionId");
 
-                    b.ToTable("Walks", (string)null);
+                    b.ToTable("Walks");
                 });
 
             modelBuilder.Entity("EgyptWalks.Models.Domain.Walk", b =>
