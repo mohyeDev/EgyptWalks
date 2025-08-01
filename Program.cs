@@ -21,6 +21,7 @@ namespace EgyptWalks
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddHttpContextAccessor();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -71,6 +72,8 @@ namespace EgyptWalks
             builder.Services.AddScoped<IRegionRepositiory, SQLRegionRepositiory>();
 
             builder.Services.AddScoped<IWalkRepoistory, SQLWalkRepository>();
+
+            builder.Services.AddScoped<IImageRepository, LocalImageRepository>();
 
             builder.Services.AddIdentityCore<IdentityUser>().AddRoles<IdentityRole>().AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("EgyptWalks").AddEntityFrameworkStores<EgyptWalksAuthDbContext>().AddDefaultTokenProviders() ;
 

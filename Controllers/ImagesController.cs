@@ -1,4 +1,7 @@
-﻿using EgyptWalks.Models.DTo;
+﻿using AutoMapper;
+using EgyptWalks.Models.Domain;
+using EgyptWalks.Models.DTo;
+using EgyptWalks.Repositiory;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +11,12 @@ namespace EgyptWalks.Controllers
     [ApiController]
     public class ImagesController : ControllerBase
     {
+        private readonly IImageRepository imageRepository;
+
+        public ImagesController(IImageRepository imageRepository)
+        {
+            this.imageRepository = imageRepository;
+        }
         [HttpPost("Upload")]
 
         public async Task<IActionResult> Upload([FromForm] ImageUploadRequestDto imageUploadRequestDto)
@@ -16,6 +25,18 @@ namespace EgyptWalks.Controllers
 
             if(ModelState.IsValid)
             {
+                var imageDomainModel = new Image
+                {
+                    File = imageUploadRequestDto.File,
+                    FileExtenstion = Path.GetExtension(imageUploadRequestDto.File.Name),
+                    FileSizeInBytes = imageUploadRequestDto.File.Length,
+                    FileName = imageUploadRequestDto.FileName,
+                    FileDescription = imageUploadRequestDto.FileDescription,
+                    
+                };
+
+                await imageRepository.Upload(imageDomainModel);
+                return Ok(imageDomainModel);
 
             }
 
@@ -26,7 +47,7 @@ namespace EgyptWalks.Controllers
         {
 
             var allwedExtension = new string[] { ".jpg", ".jpeg", ".png" };
-            if(!allwedExtension.Contains(Path.GetExtension(imageUploadRequestDto.File.FileName)) == false)
+            if(allwedExtension.Contains(Path.GetExtension(imageUploadRequestDto.File.FileName)) == false)
             {
                 ModelState.AddModelError("file","unsupported File Extension!");
 
